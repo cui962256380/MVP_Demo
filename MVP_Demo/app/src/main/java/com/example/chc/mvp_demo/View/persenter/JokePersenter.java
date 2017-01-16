@@ -1,5 +1,6 @@
 package com.example.chc.mvp_demo.View.persenter;
 
+import com.example.chc.mvp_demo.View.data.adapter.MyAdapter;
 import com.example.chc.mvp_demo.View.data.bean.Joke;
 import com.example.chc.mvp_demo.View.data.impl.IJoke;
 import com.example.chc.mvp_demo.View.data.impl.JokeBiz;
@@ -23,21 +24,18 @@ public class JokePersenter{
         this.jokebiz=new JokeBiz();
     }
 
-   public void setData() throws IOException {
+   public void bindItem() throws IOException {
+
        jokebiz.getJokeData(new OnGetDataListener() {
             @Override
             public void getSuccess(List<Joke> mlist) throws IOException {
-                iView.setData(mlist);
+                iView.getListView().setAdapter(new MyAdapter(mlist,iView.getContext()));
             }
-
             @Override
             public void getFailed() {
 
             }
         });
+
    }
-
-
-
-
 }

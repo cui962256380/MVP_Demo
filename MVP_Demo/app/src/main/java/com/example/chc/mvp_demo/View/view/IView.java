@@ -1,5 +1,8 @@
 package com.example.chc.mvp_demo.View.view;
 
+import android.content.Context;
+import android.widget.ListView;
+
 import com.example.chc.mvp_demo.View.data.bean.Joke;
 
 import java.util.List;
@@ -9,5 +12,6 @@ import java.util.List;
  */
 
 public interface IView {
-       void setData(List<Joke> joke);
+       ListView getListView();
+       Context getContext();
 }

@@ -48,9 +48,10 @@ public class JokeBiz implements  IJoke{
                 }
                 if (response.isSuccessful()) {
                     Gson gson = new Gson();
-                    String body=response.body().toString();
-                    gson.fromJson(body, Result.class);
                     try {
+                        String body=response.body().string().toString();
+                        Result result   =gson.fromJson(body, Result.class);
+                        mlist=result.result.data;
                         monGetDataListener.getSuccess(mlist);
                     } catch (IOException e) {
                         e.printStackTrace();

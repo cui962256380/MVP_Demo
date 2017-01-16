@@ -13,7 +13,7 @@ public class Result {
     public String reason;
     public obj result;
 
-    class obj {
+    public static class obj {
         public List<Joke> data;
     }
 }
