@@ -2,6 +2,7 @@ package com.example.chc.mvp_demo.View.data.impl;
 
 import com.example.chc.mvp_demo.View.api.ApiKey;
 import com.example.chc.mvp_demo.View.data.bean.Joke;
+import com.example.chc.mvp_demo.View.data.bean.Result;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
@@ -25,7 +26,7 @@ import okhttp3.Response;
 
 public class JokeBiz implements  IJoke{
 
-    final  String URL="http://japi.juhe.cn/joke/content/list.from";
+    final  String URL="http://japi.juhe.cn/joke/content/list.from?key="+ApiKey.JOKEAPIKEY+"&page=1&pagesize=20&sort=asc&time=1418745237";
 
 
     @Override
@@ -35,16 +36,9 @@ public class JokeBiz implements  IJoke{
             public void run() {
                 List<Joke> mlist = null;
                 OkHttpClient client = new OkHttpClient();
-                RequestBody formBody = new FormBody.Builder()
-                        .add("sort", "desc")//传入参数
-                        .add("page", "1")//传入参数
-                        .add("pagesize", "20")//传入参数
-                        .add("time", "1418816972")
-                        .add("key", ApiKey.JOKEAPIKEY)
-                        .build();
                 Request request = new Request.Builder()
                         .url(URL)
-                        .post(formBody)
+                        .get()
                         .build();
                 Response response = null;
                 try {
@@ -52,11 +46,12 @@ public class JokeBiz implements  IJoke{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (response.isSuccessful()) {         Gson gson = new Gson();
-                    Type founderListType = new TypeToken<ArrayList<Joke>>() { }.getType();
-                    mlist= gson.fromJson(response.body().toString(), founderListType);
+                if (response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    String body=response.body().toString();
+                    gson.fromJson(body, Result.class);
                     try {
-                        monGetDataListener.getSuccess(null);
+                        monGetDataListener.getSuccess(mlist);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -69,17 +64,6 @@ public class JokeBiz implements  IJoke{
                 }
             }
         }).start();
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
